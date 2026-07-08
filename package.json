@@ -1,0 +1,30 @@
+{
+  "name": "jhin-h-portfolio-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "generate:data": "node scripts/generatePortfolioData.mjs && node scripts/renderPdfPages.mjs && node scripts/generateVideoPosters.mjs && node scripts/enrichImageMetadata.mjs",
+    "generate:raw-data": "node scripts/generatePortfolioData.mjs",
+    "generate:pdf-pages": "node scripts/renderPdfPages.mjs",
+    "generate:video-posters": "node scripts/generateVideoPosters.mjs",
+    "generate:image-metadata": "node scripts/enrichImageMetadata.mjs",
+    "generate:pdf-cos-manifest": "node scripts/generatePdfCosManifest.mjs",
+    "visual:check": "node scripts/visual-check.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.562.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "playwright": "^1.61.1",
+    "vitest": "^4.0.15"
+  }
+}

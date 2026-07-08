@@ -1,0 +1,100 @@
+{
+  "commercial-活动": {
+    "positioning": "多场景商业活动与品牌传播现场的纪实摄影项目。",
+    "role": "活动摄影 / 现场影像记录 / 后期筛选与修图 / 传播素材交付",
+    "deliverables": ["活动现场照片", "人物互动照片", "品牌氛围图", "社媒传播素材"],
+    "tools": ["Sony Alpha", "Photoshop", "Lightroom", "Camera Raw"],
+    "highlights": [
+      "覆盖研学、品牌活动、校园活动等多类型现场，能够在复杂光线和高流动场景中稳定捕捉关键画面。",
+      "注重活动流程、人物情绪、氛围和品牌露出的平衡，保证照片既能记录事件，也能服务传播。",
+      "具备从前期拍摄到后期筛选、修图、交付的完整执行能力，可适配活动复盘和社交媒体发布需求。"
+    ],
+    "showBackground": false,
+    "showBrandName": "按具体子项目决定"
+  },
+  "commercial-蔚来-nio-house": {
+    "positioning": "围绕 NIO House 空间运营、用户活动与品牌社群的商业纪实影像项目。",
+    "role": "活动摄影 / 内容运营支持 / 图文编辑 / 短视频剪辑 / 视觉物料协同",
+    "deliverables": ["活动照片", "空间氛围图", "用户互动记录", "短视频素材", "社媒发布内容"],
+    "tools": ["Sony Alpha", "Photoshop", "Premiere Pro", "AI", "Illustrator"],
+    "highlights": [
+      "参与多场用户活动传播执行，能够理解品牌调性、用户体验和内容传播之间的关系。",
+      "负责预热视频素材制作、现场影像记录和后期回顾内容产出，保障活动内容在较短周期内上线。",
+      "实习期间累计制作发布 50+ 品牌宣传素材，相关视频累计播放量超 3 万次，并有内容被评为区域优秀传播案例内部分享。"
+    ],
+    "showBackground": true,
+    "showBrandName": true
+  },
+  "commercial-人像": {
+    "positioning": "以人物状态、情绪表达和画面质感为核心的人像摄影项目。",
+    "role": "人像摄影 / 构图指导 / 光线控制 / 后期调色与修图",
+    "deliverables": ["个人形象照", "婚礼拍摄", "精选修图成片"],
+    "tools": ["Sony Alpha", "Photoshop", "Lightroom", "Camera Raw"],
+    "highlights": [
+      "注重人物神态、姿态和环境关系，通过构图与光线控制突出人物气质。",
+      "后期处理兼顾肤色自然度、画面通透感和整体调性，不做过度修饰。"
+    ],
+    "showBackground": false,
+    "showBrandName": false
+  },
+  "影视后期-数字短片-寻味-顺德牛乳-1741-个人网站搭建-影视后期-寻味-顺德牛乳-mp4": {
+    "positioning": "围绕顺德地域饮食文化进行叙事表达的数字短片项目。",
+    "role": "短片策划 / 视频剪辑 / 后期包装 / 画面节奏控制",
+    "deliverables": ["数字短片", "剪辑成片", "画面调色", "基础动态图形包装"],
+    "tools": ["Sony Alpha", "Premiere Pro", "After Effects", "DaVinci Resolve", "Photoshop"],
+    "highlights": [
+      "以地方饮食文化为主题，通过镜头组织和剪辑节奏建立生活化、地域化的叙事氛围。",
+      "注重素材筛选、镜头衔接和声音节奏，让短片具备完整观看体验，而不是简单素材拼接。",
+      "展示从前期内容理解、策划到后期剪辑落地的完整影像表达能力。"
+    ],
+    "showBackground": true,
+    "showBrandName": false
+  },
+  "影视后期-微电影-乘翼归来-1743-个人网站搭建-影视后期-我心中的思政课微电影-广东省一等奖-mp4": {
+    "positioning": "以“我心中的思政课”为主题的微电影创作项目，获广东省一等奖。",
+    "role": "内容创意 / 演员参与 / 摄影参与 / 后期剪辑 / 项目流程跟进",
+    "deliverables": ["微电影成片", "叙事剪辑", "画面组织", "后期制作"],
+    "tools": ["Premiere Pro", "After Effects", "Photoshop", "Sony Alpha", "DJI Mavic", "Adobe Audition"],
+    "highlights": [
+      "项目围绕乡村青年与民航机遇展开叙事，参与团队从实地接触点到创意发展，完成主题表达与故事落地。",
+      "作品获得广东省一等奖，能够体现主题策划、影像执行和团队协作的综合能力。"
+    ],
+    "showBackground": true,
+    "showBrandName": false
+  },
+  "平面视觉-蘑菇旅行-1758-个人网站搭建-平面视觉-蘑菇旅行-pdf": {
+    "positioning": "围绕旅行品牌或文旅主题构建的平面视觉与阅读型方案作品。",
+    "role": "视觉设计 / 版式设计",
+    "deliverables": ["品牌视觉页面", "图文版式", "视觉提案"],
+    "tools": ["Photoshop", "Illustrator"],
+    "highlights": [
+      "通过图片、字体、版式和色彩建立轻松、有识别度的旅行主题视觉氛围。"
+    ],
+    "showBackground": false,
+    "showBrandName": false
+  },
+  "ip形象设计-ip-鼠小仓-1733-个人网站搭建-平面视觉-ip鼠小仓-pdf": {
+    "positioning": "以原创角色为核心的 IP 形象设计与视觉延展项目。",
+    "role": "IP 形象设计 / 角色设定 / 视觉延展 / 版式整理",
+    "deliverables": ["角色形象", "IP 设定页面", "延展视觉"],
+    "tools": ["Photoshop", "Illustrator"],
+    "highlights": [
+      "围绕角色外形、性格感和视觉识别建立统一的 IP 形象基础。",
+      "不只停留在单个角色图，而是通过设定页和延展视觉展示 IP 的应用可能。"
+    ],
+    "showBackground": true,
+    "showBrandName": false
+  },
+  "ip形象设计-云上牦牛干-1734-个人网站搭建-平面视觉-云上牦牛干-pdf": {
+    "positioning": "面向地方产品或食品品牌的 IP 化视觉包装与平面延展项目。",
+    "role": "品牌视觉设计 / IP 化方向设定 / 图片处理 / 版式排版",
+    "deliverables": ["品牌视觉页面", "产品视觉方案", "IP 化图形延展"],
+    "tools": ["Photoshop", "Illustrator"],
+    "highlights": [
+      "将地方产品与视觉符号结合，尝试通过 IP 化表达提升产品识别度和传播亲和力。",
+      "通过版式、色彩和图形元素统一产品调性，使作品具备品牌视觉方案的完整感。"
+    ],
+    "showBackground": true,
+    "showBrandName": false
+  }
+}

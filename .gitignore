@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Local runtime and caches
+tmp/
+.turbo/
+.vercel/
+.env
+.env.*
+
+# macOS / editor noise
+.DS_Store
+*.swp
+
+# Generated delivery archives and visual previews
+03_交付成果/*.zip
+03_交付成果/*.sha256
+03_交付成果/previews/
+
+# Local historical backups and extracted reference exports
+04_素材与参考/backups/
+04_素材与参考/reference/
+04_素材与参考/*.zip
