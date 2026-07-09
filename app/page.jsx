@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer';
 import { AppIcon } from '@/components/Icon';
 import { PortfolioBrowser } from '@/components/PortfolioBrowser';
 import { SiteNav } from '@/components/SiteNav';
+import { withBasePath } from '@/lib/sitePath';
 import {
   getCategories,
   getFeaturedItems,
@@ -37,7 +38,7 @@ export default function HomePage() {
           <section className="hero">
             <img
               className="hero-bg"
-              src="/assets/site/hero.jpg"
+              src={withBasePath('/assets/site/hero.jpg')}
               alt=""
               aria-hidden="true"
               width="2560"
@@ -106,7 +107,7 @@ export default function HomePage() {
             <section className="milestone section-shell">
               <div className="milestone-media">
                 <img
-                  src="/assets/site/milestone-乘翼归来-award.jpg"
+                  src={withBasePath('/assets/site/milestone-乘翼归来-award.jpg')}
                   alt="微电影-乘翼归来-广东省一等奖"
                   width="1920"
                   height="1080"
@@ -116,7 +117,10 @@ export default function HomePage() {
               </div>
               <div className="milestone-copy">
                 <span className="section-kicker">REPRESENTATIVE PROJECT</span>
-                <h2>微电影-乘翼归来-广东省一等奖</h2>
+                <h2 className="milestone-title">
+                  <span className="milestone-title-main">微电影-乘翼归来</span>
+                  <span className="milestone-title-award">广东省一等奖</span>
+                </h2>
                 <p>
                   “乘翼归来”作为影视后期代表项目，覆盖前期策划、拍摄与后期剪辑落地，展示叙事节奏、画面组织和完整交付能力。
                 </p>

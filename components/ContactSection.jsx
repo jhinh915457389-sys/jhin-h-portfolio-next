@@ -4,13 +4,45 @@ import { useState } from 'react';
 import { Mail, Phone, MessageCircle, Copy } from 'lucide-react';
 import { AppIcon } from './Icon';
 
+async function writeClipboardText(value) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const textArea = document.createElement('textarea');
+  textArea.value = value;
+  textArea.setAttribute('readonly', '');
+  textArea.style.position = 'fixed';
+  textArea.style.inset = '0 auto auto 0';
+  textArea.style.width = '1px';
+  textArea.style.height = '1px';
+  textArea.style.opacity = '0';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  textArea.setSelectionRange(0, value.length);
+
+  const didCopy = document.execCommand('copy');
+  document.body.removeChild(textArea);
+
+  if (!didCopy) {
+    throw new Error('Copy command failed');
+  }
+}
+
 export function ContactSection({ profile }) {
   const [copiedKey, setCopiedKey] = useState('');
 
   const copyText = async (key, value) => {
-    await navigator.clipboard?.writeText(value);
-    setCopiedKey(key);
-    window.setTimeout(() => setCopiedKey(''), 1600);
+    try {
+      await writeClipboardText(value);
+      setCopiedKey(key);
+      window.setTimeout(() => setCopiedKey(''), 1600);
+    } catch {
+      setCopiedKey('');
+      window.prompt('请手动复制', value);
+    }
   };
 
   return (
