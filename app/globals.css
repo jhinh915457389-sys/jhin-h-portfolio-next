@@ -425,6 +425,8 @@ h3 {
   min-height: min(72vh, 680px);
   overflow: hidden;
   border-radius: 20px;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
 }
 
 .featured-carousel-track {
@@ -1106,11 +1108,28 @@ h3 {
 .pdf-reader {
   display: grid;
   gap: 14px;
+  justify-items: center;
+}
+
+.pdf-page-button {
+  width: 100%;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: #151515;
+  cursor: zoom-in;
+  line-height: 0;
+  overflow: hidden;
 }
 
 .pdf-reader img {
   width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  display: block;
   border-radius: 14px;
+  object-fit: contain;
   background: #151515;
 }
 
@@ -1384,6 +1403,8 @@ h3 {
   background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(10px);
   animation: lightboxIn 180ms var(--ease-out-quart) both;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
 }
 
 .lightbox img {

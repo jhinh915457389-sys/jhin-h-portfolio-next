@@ -201,6 +201,11 @@ function FeaturedCarousel({ items, activeIndex, onChange, onOpen, activeTransiti
   const previousIndex = (activeIndex - 1 + items.length) % items.length;
   const shouldPause = isPaused || Boolean(activeTransitionId);
   const changeSlide = (index) => onChange(index);
+  const swipeHandlers = useSwipeGesture({
+    disabled: items.length < 2,
+    onSwipeLeft: () => changeSlide(nextIndex),
+    onSwipeRight: () => changeSlide(previousIndex),
+  });
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -226,7 +231,18 @@ function FeaturedCarousel({ items, activeIndex, onChange, onOpen, activeTransiti
         if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false);
       }}
     >
-      <div className="featured-carousel-main">
+      <div
+        className="featured-carousel-main"
+        onPointerDownCapture={swipeHandlers.onPointerDown}
+        onPointerMoveCapture={swipeHandlers.onPointerMove}
+        onPointerUpCapture={swipeHandlers.onPointerUp}
+        onPointerCancelCapture={swipeHandlers.onPointerCancel}
+        onTouchStartCapture={swipeHandlers.onTouchStart}
+        onTouchMoveCapture={swipeHandlers.onTouchMove}
+        onTouchEndCapture={swipeHandlers.onTouchEnd}
+        onTouchCancelCapture={swipeHandlers.onTouchCancel}
+        onClickCapture={swipeHandlers.onClickCapture}
+      >
         <div
           className="featured-carousel-track"
           style={{ transform: `translate3d(-${activeIndex * 100}%, 0, 0)` }}
@@ -296,6 +312,11 @@ function WorkDrawer({
   const galleryExitTimer = useRef(null);
   const drawerRef = useFocusTrap(Boolean(item) && !closing && !galleryPanel, onClose);
   const pdfImages = pdfPages[item.id] ?? [];
+  const pdfLightboxImages = useMemo(() => pdfImages.map((page, index) => ({
+    ...page,
+    title: `${item.title} 第 ${index + 1} 页`,
+    filename: page.filename ?? `${item.title}-${index + 1}`,
+  })), [item.title, pdfImages]);
   const imageAssets = collectImageAssets(item);
   const posterAsset = item.type === 'image' ? imageAssets[0] : null;
   const videoAsset = item.assets?.find((asset) => asset.kind === 'video');
@@ -393,16 +414,27 @@ function WorkDrawer({
           <section className="drawer-section">
             <h3>作品阅读</h3>
             <div className="pdf-reader">
-              {pdfImages.map((page, index) => (
-                <img
+              {pdfLightboxImages.map((page, index) => (
+                <button
                   key={page.id}
-                  src={page.url}
-                  alt={`${item.title} 第 ${index + 1} 页`}
-                  width={page.width ?? 1200}
-                  height={page.height ?? 800}
-                  loading="lazy"
-                  decoding="async"
-                />
+                  type="button"
+                  className="pdf-page-button"
+                  onClick={() => onOpenImage(pdfLightboxImages, index)}
+                  aria-label={`查看 ${item.title} 第 ${index + 1} 页`}
+                >
+                  <img
+                    src={page.url}
+                    alt={`${item.title} 第 ${index + 1} 页`}
+                    width={page.width ?? 1200}
+                    height={page.height ?? 800}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      aspectRatio: `${page.width ?? 1200} / ${page.height ?? 800}`,
+                      height: 'auto',
+                    }}
+                  />
+                </button>
               ))}
             </div>
           </section>
@@ -643,6 +675,11 @@ function ImageLightbox({ images, index, direction = 0, closing = false, onClose,
   const current = images[index];
   const directionClass = direction > 0 ? 'is-next' : direction < 0 ? 'is-previous' : '';
   const lightboxRef = useFocusTrap(!closing, onClose, { restoreOnDeactivate: true });
+  const swipeHandlers = useSwipeGesture({
+    disabled: images.length < 2 || closing,
+    onSwipeLeft: () => onShift(1),
+    onSwipeRight: () => onShift(-1),
+  });
   const onLightboxKeyDown = (event) => {
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
@@ -662,6 +699,15 @@ function ImageLightbox({ images, index, direction = 0, closing = false, onClose,
       aria-modal="true"
       aria-label="图片预览"
       onKeyDown={onLightboxKeyDown}
+      onPointerDownCapture={swipeHandlers.onPointerDown}
+      onPointerMoveCapture={swipeHandlers.onPointerMove}
+      onPointerUpCapture={swipeHandlers.onPointerUp}
+      onPointerCancelCapture={swipeHandlers.onPointerCancel}
+      onTouchStartCapture={swipeHandlers.onTouchStart}
+      onTouchMoveCapture={swipeHandlers.onTouchMove}
+      onTouchEndCapture={swipeHandlers.onTouchEnd}
+      onTouchCancelCapture={swipeHandlers.onTouchCancel}
+      onClickCapture={swipeHandlers.onClickCapture}
     >
       <button type="button" className="lightbox-close" onClick={onClose} aria-label="关闭图片预览">
         <AppIcon icon={X} size="md" />
@@ -686,6 +732,124 @@ function ImageLightbox({ images, index, direction = 0, closing = false, onClose,
       </div>
     </div>
   );
+}
+
+function useSwipeGesture({ disabled = false, onSwipeLeft, onSwipeRight }) {
+  const gestureRef = useRef(null);
+  const suppressClickUntilRef = useRef(0);
+
+  const resetGesture = useCallback(() => {
+    gestureRef.current = null;
+  }, []);
+
+  const startGesture = useCallback((point, target, pointerId = 'touch') => {
+    if (disabled || Date.now() < suppressClickUntilRef.current) return;
+    gestureRef.current = {
+      pointerId,
+      startX: point.clientX,
+      startY: point.clientY,
+      target,
+    };
+  }, [disabled]);
+
+  const moveGesture = useCallback((point, pointerId, event, canPreventDefault = true) => {
+    const gesture = gestureRef.current;
+    if (!gesture || gesture.pointerId !== pointerId) return;
+
+    const deltaX = point.clientX - gesture.startX;
+    const deltaY = point.clientY - gesture.startY;
+    if (canPreventDefault && Math.abs(deltaX) > 16 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35) {
+      event.preventDefault();
+    }
+  }, []);
+
+  const endGesture = useCallback((point, pointerId) => {
+    const gesture = gestureRef.current;
+    if (!gesture || gesture.pointerId !== pointerId) return false;
+
+    const deltaX = point.clientX - gesture.startX;
+    const deltaY = point.clientY - gesture.startY;
+    const isHorizontalSwipe = Math.abs(deltaX) >= 46 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35;
+
+    if (typeof pointerId === 'number') {
+      try {
+        gesture.target.releasePointerCapture?.(pointerId);
+      } catch {
+        // Ignore release failures for non-captured pointer streams.
+      }
+    }
+    resetGesture();
+
+    if (!isHorizontalSwipe) return false;
+    suppressClickUntilRef.current = Date.now() + 350;
+    if (deltaX < 0) onSwipeLeft?.();
+    else onSwipeRight?.();
+    return true;
+  }, [onSwipeLeft, onSwipeRight, resetGesture]);
+
+  const onPointerDown = useCallback((event) => {
+    if (disabled || event.pointerType === 'mouse' || event.button !== 0) return;
+    try {
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    } catch {
+      // Synthetic and some older mobile events can fail pointer capture; swipe detection still works without it.
+    }
+    startGesture(event, event.currentTarget, event.pointerId);
+  }, [disabled, startGesture]);
+
+  const onPointerMove = useCallback((event) => {
+    moveGesture(event, event.pointerId, event);
+  }, [moveGesture]);
+
+  const onPointerUp = useCallback((event) => {
+    endGesture(event, event.pointerId);
+  }, [endGesture]);
+
+  const onTouchStart = useCallback((event) => {
+    if (event.touches.length !== 1) return;
+    startGesture(event.touches[0], event.currentTarget);
+  }, [startGesture]);
+
+  const onTouchMove = useCallback((event) => {
+    if (event.touches.length !== 1) return;
+    moveGesture(event.touches[0], 'touch', event, false);
+  }, [moveGesture]);
+
+  const onTouchEnd = useCallback((event) => {
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    endGesture(touch, 'touch');
+  }, [endGesture]);
+
+  const onClickCapture = useCallback((event) => {
+    if (Date.now() > suppressClickUntilRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, []);
+
+  const onPointerCancel = useCallback((event) => {
+    const gesture = gestureRef.current;
+    if (gesture?.pointerId === event.pointerId) {
+      try {
+        gesture.target.releasePointerCapture?.(event.pointerId);
+      } catch {
+        // Ignore release failures for non-captured pointer streams.
+      }
+    }
+    resetGesture();
+  }, [resetGesture]);
+
+  return {
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onTouchCancel: resetGesture,
+    onClickCapture,
+  };
 }
 
 function collectImageAssets(item) {
