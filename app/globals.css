@@ -935,10 +935,10 @@ h3 {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0 16px;
+  margin: -18px -18px 18px;
+  padding: 18px;
   color: var(--muted);
-  background: linear-gradient(180deg, rgba(13, 11, 0, 0.98), rgba(13, 11, 0, 0.9));
-  backdrop-filter: blur(16px);
+  background: transparent;
 }
 
 .icon-button,
@@ -1796,7 +1796,7 @@ h3 {
   }
 
   .drawer-topbar {
-    margin-inline: -18px;
+    margin: 0 -18px 18px;
     padding: 18px 18px 16px;
     background:
       linear-gradient(180deg, rgba(13, 11, 0, 1), rgba(13, 11, 0, 0.96));
@@ -2125,8 +2125,9 @@ h3 {
 }
 
 .drawer-topbar {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(13, 11, 0, 0.58);
+  border-bottom: 0;
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .drawer-section,
