@@ -309,6 +309,7 @@ function WorkDrawer({
   const [galleryPanel, setGalleryPanel] = useState(null);
   const [galleryClosing, setGalleryClosing] = useState(false);
   const [visibleGalleryCount, setVisibleGalleryCount] = useState(INITIAL_GALLERY_COUNT);
+  const [videoPlaybackFailed, setVideoPlaybackFailed] = useState(false);
   const galleryExitTimer = useRef(null);
   const drawerRef = useFocusTrap(Boolean(item) && !closing && !galleryPanel, onClose);
   const pdfImages = pdfPages[item.id] ?? [];
@@ -347,6 +348,8 @@ function WorkDrawer({
     setGalleryPanel(group);
   };
 
+  const handleVideoError = () => setVideoPlaybackFailed(true);
+
   useEffect(() => {
     if (galleryExitTimer.current) {
       window.clearTimeout(galleryExitTimer.current);
@@ -355,6 +358,7 @@ function WorkDrawer({
     setGalleryClosing(false);
     setGalleryPanel(null);
     setVisibleGalleryCount(INITIAL_GALLERY_COUNT);
+    setVideoPlaybackFailed(false);
   }, [item.id]);
 
   useEffect(() => {
@@ -404,9 +408,15 @@ function WorkDrawer({
         {item.type === 'video' && videoAsset && (
           <section className="drawer-section">
             <h3>视频预览</h3>
-            <video controls playsInline preload="metadata" poster={item.cover}>
+            <video controls playsInline preload="metadata" poster={item.cover} onError={handleVideoError}>
               <source src={videoAsset.url} type="video/mp4" />
             </video>
+            {videoPlaybackFailed && (
+              <p className="video-playback-fallback" role="status">
+                当前浏览器无法播放此视频。{' '}
+                <a href={videoAsset.url} target="_blank" rel="noreferrer">在新标签打开视频</a>
+              </p>
+            )}
           </section>
         )}
 
